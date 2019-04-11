@@ -4,6 +4,7 @@ import com.mpp.youtubesimulationbackend.model.Video;
 
 public interface VideoRepository {
 
-    boolean insertVideoMetaData(Video video);
+    String updateVideoMetaData(Video video);
+
 
 }

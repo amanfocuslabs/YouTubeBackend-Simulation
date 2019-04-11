@@ -43,4 +43,9 @@ public class VideoRepositoryImpl implements VideoRepository {
 
         return false;
     }
+
+    @Override
+    public String updateVideoMetaData(Video video) {
+        return null;
+    }
 }

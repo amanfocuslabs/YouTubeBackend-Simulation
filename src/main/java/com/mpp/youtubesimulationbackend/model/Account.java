@@ -1,30 +1,65 @@
 package com.mpp.youtubesimulationbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
-
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-@Table(name = "account")
+@Table(name = "accounts")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
+        allowGetters = true)
 public class Account implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "user_name",nullable = false)
+    @NotBlank
     private String userName;
 
-    @Column(name = "password",nullable = false)
+    @NotBlank
     private String password;
 
-    @Column(name = "email",nullable = false)
+    @NotBlank
     private String email;
 
-    @OneToMany(mappedBy = "account")
-    @Column(name = "channel",nullable = false)
-    private List<Channel> channelList;
-}
+    // Getters and Setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+
+        return password;
+    }
+
+    public void setPassword(String password) {
+        String encoded = new BCryptPasswordEncoder().encode(password);
+        this.password =encoded;
+    }
+
+   }
+
